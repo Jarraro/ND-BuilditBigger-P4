@@ -25,6 +25,7 @@ public class MainActivityFragment extends Fragment {
 
     Button tellJokeBtn;
     ProgressBar progressBar;
+    AdView mAdView;
 
     public MainActivityFragment() {
     }
@@ -41,7 +42,7 @@ public class MainActivityFragment extends Fragment {
                 new EndpointsAsyncTask().execute();
             }
         });
-        AdView mAdView = (AdView) root.findViewById(R.id.adView);
+        mAdView = (AdView) root.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
@@ -83,5 +84,17 @@ public class MainActivityFragment extends Fragment {
         Intent intent = new Intent(getActivity().getApplicationContext(), com.jarrar.jokeactivity.JokeMainActivity.class);
         intent.putExtra("jokeString", jokeText);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mAdView.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdView.resume();
     }
 }
